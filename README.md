@@ -1,23 +1,37 @@
-## Usage
+# Cloudflare Feedback Analyzer
 
-You can run the Worker defined by your new project by executing `wrangler dev` in this
-directory. This will start up an HTTP server and will allow you to iterate on your
-Worker without having to restart `wrangler`.
+## Overview
+This project is a prototype built for the Cloudflare Product Manager Intern assignment. It demonstrates a serverless workflow that automatically analyzes customer feedback for sentiment and summarization.
 
-### Types and autocomplete
+## Architecture
+* **Orchestrator:** Cloudflare Workers (TypeScript)
+* **Intelligence:** Workers AI (@cf/meta/llama-3-8b-instruct)
+* **Storage:** D1 Database (SQL)
 
-This project also includes a pyproject.toml with some requirements which
-set up autocomplete and type hints for this Python Workers project.
+## Project Structure
+* `src/index.ts`: Main application logic handling requests and AI inference.
+* `wrangler.jsonc`: Configuration for bindings (DB, AI) and deployment settings.
+* `schema.sql`: SQL schema used to initialize the D1 database table.
 
-To get these installed you'll need `uv`, which you can install by following
-https://docs.astral.sh/uv/getting-started/installation/.
+## Setup & Run
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Run locally:**
+    ```bash
+    npx wrangler dev
+    ```
+3.  **Deploy:**
+    ```bash
+    npx wrangler deploy
+    ```
 
-Once `uv` is installed, you can run the following:
+## API Usage
+**Endpoint:** `POST /`
 
-```
-uv venv
-uv sync
-```
-
-Then point your editor's Python plugin at the `.venv` directory. You should then have working
-autocomplete and type information in your editor.
+**Payload:**
+```json
+{
+  "feedback": "Your documentation is comprehensive but search is slow."
+}
